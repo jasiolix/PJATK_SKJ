@@ -61,3 +61,13 @@ class UDPServer {
 	}
 
 }
+
+/*
+REMEMBER:
+socket.getLocalPort()
+datagram.getHost()
+datagram.getAddress()
+
+Every function has its own stack, so you can call function which creates variables with the same name
+and it wont be a problem (final Datagram datagram in code makes sense)
+ */

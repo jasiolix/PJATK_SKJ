@@ -53,3 +53,18 @@ class Main
         return  scanner.nextInt();
     }
 }
+
+/*
+Things to remember:
+InetAddress InetAddress.getByName(String s) - turns IP string into InetAddress object
+InetAddress InetAddress.getLocalHost() - returns host IP as InetAddress object
+new DatagramPacket(byte[] buffer, int length, InetAddress IPAddress, int port)
+new DatagramPacket(byte[] buffer, int length) - creates buffer for socket.receive
+new DatagramSocket() - creates datagram socket
+socket.send(Datagram datagram)
+socket.receive(Datagram datagram)
+datagram.getData()
+
+Remember that everytime there are external resources (INetAddress.getLocalHost, DatagramSocket() etc.) you usually have to
+deal with IOException
+ */
