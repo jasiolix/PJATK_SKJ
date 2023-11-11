@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/Others" />
       <excludeFolder url="file://$MODULE_DIR$/src/Cyberskiller/ProgrammingTCPServerJava" />
+      <excludeFolder url="file://$MODULE_DIR$/src/Cyberskiller/ProgrammingUDPServerJava" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

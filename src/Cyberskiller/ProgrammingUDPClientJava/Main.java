@@ -13,22 +13,23 @@ class Main
     public static void main(String[] args) throws IOException {
         DatagramPacket packetToServer = getDatagram("127.0.0.1", getPort());
         DatagramSocket socket = getSocket();
-        sendData(socket, packetToServer);
-        DatagramPacket packetFromServer = getDatagram(20);
-        receiveData(socket, packetFromServer);
+        sendDatagram(socket, packetToServer);
+        DatagramPacket packetFromServer = receiveDatagram(socket, 20);
         String data = getStringData(packetFromServer);
         System.out.println(data);
     }
 
-    private static void receiveData(DatagramSocket socket, DatagramPacket packetFromServer) throws IOException {
-        socket.receive(packetFromServer);
+    private static DatagramPacket receiveDatagram(DatagramSocket socket, int noBytes) throws IOException {
+        DatagramPacket packetBuff = getDatagram(noBytes);
+        socket.receive(packetBuff);
+        return packetBuff;
     }
 
     private static DatagramPacket getDatagram(int i) {
         return new DatagramPacket(new byte[i], i);
     }
 
-    private static void sendData(DatagramSocket socket, DatagramPacket packetToServer) throws IOException {
+    private static void sendDatagram(DatagramSocket socket, DatagramPacket packetToServer) throws IOException {
         socket.send(packetToServer);
     }
 
