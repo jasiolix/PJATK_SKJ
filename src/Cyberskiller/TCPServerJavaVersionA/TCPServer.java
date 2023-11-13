@@ -33,9 +33,9 @@ public class TCPServer {
         int port = getPort(args);
         ServerSocket serverSocket = createServerSocket(port);
         while(true){
+            Socket socket = getSocket(serverSocket);
             new Thread( () -> {
                 try {
-                    Socket socket = getSocket(serverSocket);
                     String message = getMessage(socket);
                     if (message.equals("FINISH")) {
                         socket.close();
