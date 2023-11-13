@@ -36,13 +36,14 @@ public class TCPServer {
             Socket socket = getSocket(serverSocket);
             new Thread( () -> {
                 try {
-                    String message = getMessage(socket);
-                    if (message.equals("FINISH")) {
-                        socket.close();
-                    }
-                    else {
-                        String response = getResponse(message);
-                        sendResponse(response, socket);
+                    while(!socket.isClosed()) {
+                        String message = getMessage(socket);
+                        if (message.equals("FINISH")) {
+                            socket.close();
+                        } else {
+                            String response = getResponse(message);
+                            sendResponse(response, socket);
+                        }
                     }
                 } catch (IOException ignore){}
             }).start();
