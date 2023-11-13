@@ -23,3 +23,12 @@ class Main
         System.out.println(new String(arr, 0, 20));
     }
 }
+
+/*
+remember:
+ServerSocket socket = new ServerSocket(int port);
+Socket s = socket.accept();
+socket.getInputStream();
+try(){} - try with resources closes the resaurces every time, so you dont have to close them
+
+ */

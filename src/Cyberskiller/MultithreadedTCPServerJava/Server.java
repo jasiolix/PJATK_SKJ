@@ -26,7 +26,6 @@ public class Server {
 class SocketThread extends Thread{
     private Socket socket;
     SocketThread(Socket socket) {
-        super();
         this.socket = socket;
     }
 
@@ -40,5 +39,12 @@ class SocketThread extends Thread{
         } catch (IOException ignored) {}
     }
 }
+
+/*
+remember:
+args[0] is the first argument of the program (String)
+while(true) loop with serverSocket.accept() here is necessary, because we want the server to run infinitely and wait
+for a connection request from a client.
+ */
 
 

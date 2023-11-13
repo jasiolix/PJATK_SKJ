@@ -30,3 +30,12 @@ class Main {
         }
     }
 }
+
+/*
+remember:
+socket.getInputStream().readAllBytes() or socket.getInputStream.read() are blocking methods, which means
+that their implementations in SocketInputStream make it that so when connection is open and there is no data to read
+from input stream, then the method is waiting until new data arrives from server or the connection is closed. In
+this case we dont know if the server is going to close the connection after sending 20 bytes, therefore we close
+it ourselves and stop reading data after acquiring desired 20 bytes
+ */

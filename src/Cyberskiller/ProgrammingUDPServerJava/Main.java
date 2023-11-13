@@ -1,3 +1,9 @@
+/*
+Write a UDP server in Java. Use the provided template for this purpose. The server should await the data.
+
+After the client has sent the data, the server should receive one datagram of data (20 bytes of data) and display it in the standard output.
+ */
+
 package Cyberskiller.ProgrammingUDPServerJava;
 
 import java.util.*;
