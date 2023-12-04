@@ -28,30 +28,26 @@ import java.net.*;
 import java.util.Arrays;
 
 
-public class TCPServer {
+class TCPServer {
+
     public static void main(String[] args) throws IOException{
-        int port = getPort(args);
-        ServerSocket serverSocket = createServerSocket(port);
+        //int port = getPort(args);
+        ServerSocket serverSocket = createServerSocket(6789);
         while(true){
             Socket socket = getSocket(serverSocket);
             new Thread( () -> {
                 try {
-                    while(!socket.isClosed()) {
-                        String message = getMessage(socket);
-                        if (message.equals("FINISH")) {
-                            socket.close();
-                        } else {
-                            String response = getResponse(message);
-                            sendResponse(response, socket);
-                        }
+                    String message = TCPClient.receive(socket);
+                    if (message.equals("FINISH")) {
+                        socket.close();
+                    } else {
+                        String response = getResponse(message);
+                        TCPClient.send(response, socket);
+                        socket.close();
                     }
                 } catch (IOException ignore){}
             }).start();
         }
-    }
-
-    private static void sendResponse(String response, Socket socket) throws IOException {
-        socket.getOutputStream().write(response.getBytes());
     }
 
     private static String getResponse(String message) {
@@ -61,7 +57,7 @@ public class TCPServer {
             case "Welcome" -> getWelcomeResult();
             case "COUNT" -> getCountResult(data);
             case "DIVISIBLE" -> getDivisibleResult(data);
-            default -> "";
+            default -> "Wrong message!";
         };
     }
 
@@ -72,8 +68,7 @@ public class TCPServer {
 
     private static String[] getData(String message) {
         String[] arr = message.split("\\s");
-        String[] dataArr = Arrays.copyOfRange(arr, 1, arr.length);
-        return dataArr;
+        return Arrays.copyOfRange(arr, 1, arr.length);
     }
 
     private static String getCountResult(String[] data) {
@@ -91,15 +86,9 @@ public class TCPServer {
         return message.split("\\s")[0];
     }
 
-    private static String getMessage(Socket socket) throws IOException {
-        byte[] arr = socket.getInputStream().readAllBytes();
-        return new String(arr);
-    }
-
     private static ServerSocket createServerSocket(int port) throws IOException {
         return new ServerSocket(port);
     }
-
     private static Socket getSocket(ServerSocket serverSocket) throws IOException {
         return serverSocket.accept();
     }
@@ -108,3 +97,13 @@ public class TCPServer {
         return Integer.parseInt(args[0]);
     }
 }
+
+/*
+I got 0 points from cyberskillers bc:
+1. I didnt practice enough, next time I need to write code faster.
+2. I assumed there wont be writing to socket, bc on cyberskiller tasks we only read from sockets, so I had
+   to remind myself which took a lot of time
+3. I didn't understand how to use output and input streams, in particular that socket.getInputStream().readAllBytes()
+   won't work bc readAllBytes() method has to detect end of stream, BUT END OF STREAM IN CASE OF SOCKETS ONLY HAPPENS
+   IF SOMEONE CLOSES THE CONNECTION!
+ */

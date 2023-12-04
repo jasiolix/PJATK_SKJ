@@ -11,26 +11,20 @@ import java.io.*;
 class Main
 {
     public static void main(String[] args) throws IOException {
-        DatagramPacket packetToServer = getDatagram("127.0.0.1", getPort());
-        DatagramSocket socket = getSocket();
-        sendDatagram(socket, packetToServer);
+        int serverPort = getPort();
+        InetAddress serverAddress = InetAddress.getByName("127.0.0.1");
+        DatagramPacket packetToServer = getDatagram(serverAddress, serverPort);
+        DatagramSocket socket = new DatagramSocket();
+        socket.send(packetToServer);
         DatagramPacket packetFromServer = receiveDatagram(socket, 20);
         String data = getStringData(packetFromServer);
         System.out.println(data);
     }
 
     private static DatagramPacket receiveDatagram(DatagramSocket socket, int noBytes) throws IOException {
-        DatagramPacket packetBuff = getDatagram(noBytes);
+        DatagramPacket packetBuff = new DatagramPacket(new byte[20], 20);
         socket.receive(packetBuff);
         return packetBuff;
-    }
-
-    private static DatagramPacket getDatagram(int i) {
-        return new DatagramPacket(new byte[i], i);
-    }
-
-    private static void sendDatagram(DatagramSocket socket, DatagramPacket packetToServer) throws IOException {
-        socket.send(packetToServer);
     }
 
     private static String getStringData(DatagramPacket packetFromServer) {
@@ -38,14 +32,9 @@ class Main
         return new String(data, 0, data.length );
     }
 
-
-    private static DatagramSocket getSocket() throws SocketException {
-        return new DatagramSocket();
-    }
-
-    private static DatagramPacket getDatagram(String s, int port) throws UnknownHostException {
+    private static DatagramPacket getDatagram(InetAddress address, int port){
         byte[] buffer = new byte[1];
-        return new DatagramPacket(buffer, buffer.length, InetAddress.getByName(s), port);
+        return new DatagramPacket(buffer, buffer.length, address, port);
     }
 
     private static int getPort() {
@@ -65,6 +54,6 @@ socket.send(Datagram datagram)
 socket.receive(Datagram datagram)
 datagram.getData()
 
-Remember that everytime there are external resources (INetAddress.getLocalHost, DatagramSocket() etc.) you usually have to
+Remember that everytime there are external resources (INetAddress.getLocalHost, INetAddress.getByName() etc.) you usually have to
 deal with IOException
  */
